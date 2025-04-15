@@ -1,3 +1,47 @@
 ﻿@page "/"
+@using KrisInfoBlazor.ExternalAPI.Models
+@using KrisInfoBlazor.ExternalAPI.Services
+@inject KrisInfoService NewsService
 
-<h1>Hello, world!</h1>
+<h3>KrisInformation - Nyheter</h3>
+
+@if (items == null)
+{
+    <p>Laddar nyheter.....</p>
+}
+else
+{
+    <table>
+        <thread>
+            <tr>
+                <th>Rubrik</th>
+                <th>Publicerad</th>
+                <th>Mer Info</th>
+
+            </tr>
+        </thread>
+        <tbody>
+            @foreach(var item in items)
+            {
+                <tr>
+                    <td>@item.Headline</td>
+                    <td>@item.Published.ToShortDateString()</td>
+                    <td>
+                        <NavLink class="btn btn-primary" href="/details/@item.Identifier">Läs mer</NavLink>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code{
+    List<NewsItem>? items;
+
+    protected override async Task OnInitializedAsync()
+    {
+        items = await NewsService.GetNewsAsync();
+    }
+}
+
+
