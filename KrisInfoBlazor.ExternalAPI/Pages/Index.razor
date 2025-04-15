@@ -26,9 +26,12 @@ else
                 <tr>
                     <td>@item.Headline</td>
                     <td>@item.Published.ToShortDateString()</td>
+                    
                     <td>
-                        <NavLink class="btn btn-primary" href="/details/@item.Identifier">Läs mer</NavLink>
+                        <NavLink class="btn btn-primary" href=@($"/details/{item.Identifier}")>Läs mer</NavLink>
                     </td>
+
+                    
                 </tr>
             }
         </tbody>

@@ -20,7 +20,7 @@ namespace KrisInfoBlazor.ExternalAPI.Services
 
         public async Task<List<NewsItem>> GetNewsAsync()
         {
-            var response = await _http.GetStringAsync("https://api.krisinformation.se/v3/news");
+            var response = await _http.GetStringAsync("https://api.krisinformation.se/v3/news?numberOfNewsArticles=10");
             var items = JsonConvert.DeserializeObject<List<NewsItem>>(response);
             return items ?? new List<NewsItem>();
         }
