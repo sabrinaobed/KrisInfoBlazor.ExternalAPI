@@ -1,0 +1,41 @@
+﻿@page "/details/{id}"
+@using KrisInfoBlazor.ExternalAPI.Models
+@using KrisInfoBlazor.ExternalAPI.Services
+@inject KrisInfoService NewsService
+
+@using Microsoft.AspNetCore.Components
+
+
+
+@if (item == null)
+{
+    <p>Laddar detaljer...</p>
+}
+else
+{
+    <div class="card" style="padding: 20px; max-width: 800px;">
+        <div class="card-body">
+            <h4>@item.Headline</h4>
+            <p><strong>Publicerad:</strong> @item.Published.ToString("dd/MM/yyyy HH:mm:ss")</p>
+            @((MarkupString)(item.BodyText?.Replace("{0}", "<a href='https://krisinformation.se'>läs mer här</a>")))
+
+
+            <br />
+            <NavLink class="btn btn-secondary mt-3" href="/">Tillbaka</NavLink>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public string? id { get; set; }
+
+    private NewsItem? item;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var allItems = await NewsService.GetNewsAsync();
+        item = allItems.FirstOrDefault(i => i.Identifier == id);
+    }
+}
+
